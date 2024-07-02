@@ -7,8 +7,8 @@ import (
 )
 
 func main() {
-	ctx := context.Background()		//add user data here dummy
-	if err := run(ctx, os.Getenv); err != nil {
+	ctx := context.Background()
+	if err := run(ctx, getenv); err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(1)
 	}

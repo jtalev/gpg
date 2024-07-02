@@ -1,14 +1,21 @@
 package main
 
 import (
-	"encoding/json"
+	"context"
+	"gpg/portal/internal/handle"
+	"gpg/portal/internal/user"
 	"net/http"
 )
 
-func addRoutes(mux *http.ServeMux) {
-	mux.HandleFunc("/", handler)
-}
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode("Hello")
+func addRoutes(mux *http.ServeMux, ctx context.Context) {
+	u := user.User{
+		Id: 1,
+		EmployeeId: 1234567,
+		Username: "Sliddy",
+		FirstName: "Josh",
+		LastName: "Talev",
+	}
+	ctx = context.WithValue(ctx, "user_name", u.Username)
+	mux.Handle("/", handle.ServeIndex(ctx))
 }

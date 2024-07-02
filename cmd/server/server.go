@@ -11,10 +11,11 @@ import (
 	"time"
 )
 
-func NewServer() http.Handler {
+func NewServer(ctx context.Context) http.Handler {
 	mux := http.NewServeMux()
 	addRoutes(
 		mux,
+		ctx,
 	)
 	var handler http.Handler = mux
 	initConfig()
@@ -27,7 +28,7 @@ func run(
 ) error {
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
 	defer cancel()
-	srv := NewServer()
+	srv := NewServer(ctx)
 	httpServer := &http.Server{
 		Addr: getenv("PORT"),
 		Handler: srv,
