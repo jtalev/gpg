@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"gpg/portal/internal/localdb"
 	"net/http"
+	"path/filepath"
 )
 
 func encode[T any](w http.ResponseWriter, status int, v T) error {
@@ -26,10 +27,10 @@ func decode[T any](r *http.Request) error {
 }
 
 func ServeIndex(ctx context.Context, db localdb.Db) http.Handler {
-	u := db.GetUsers()
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r * http.Request){
-			encode(w, http.StatusOK, u)
+			path := filepath.Join("..", "..", "web", "pages", "login.html")
+			http.ServeFile(w, r, path)
 		},
 	)
 }
