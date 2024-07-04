@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"gpg/portal/internal/user"
+	"gpg/portal/internal/localdb"
 	"net/http"
 )
 
@@ -25,18 +25,8 @@ func decode[T any](r *http.Request) error {
 	return nil
 }
 
-func HandleDoubleInt(u user.User) http.Handler {
-	s := "Hello, " + u.Username
-	return http.HandlerFunc(
-		func(w http.ResponseWriter, r *http.Request) {
-			encode(w, http.StatusOK, u)
-			json.NewEncoder(w).Encode(s)
-		},
-	)
-}
-
-func ServeIndex(ctx context.Context) http.Handler {
-	u := ctx.Value("user_name")
+func ServeIndex(ctx context.Context, db localdb.Db) http.Handler {
+	u := db.GetUsers()
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r * http.Request){
 			encode(w, http.StatusOK, u)

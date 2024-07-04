@@ -5,15 +5,16 @@ import (
 )
 
 type User struct {
-	Id           int       `json:"id"`
-	EmployeeId   int       `json:"employee_id"`
-	Username     string    `json:"user_name"`
-	FirstName    string    `json:"first_name"`
-	LastName     string    `json:"last_name"`
-	Email        string    `json:"email"`
-	PasswordHash string    `json:"password_hash"`
-	IsAdmin      string    `json:"is_admin"`
-	IsActivated  bool      `json:"is_activated"`
-	CreatedAt    time.Time `json:"created_at"`
-	ModifiedAt   time.Time `json:"modified_at"`
+	Id           int    `json:"id"`
+	EmployeeId   int    `json:"employee_id"`
+	Username     string `json:"user_name"`
+	FirstName    string `json:"first_name"`
+	LastName     string `json:"last_name"`
+	Email        string `json:"email"`
+	PasswordHash string `json:"password_hash"`
+
+	IsAdmin     bool      `json:"is_admin"`
+	IsActivated bool      `json:"is_activated"`
+	CreatedAt   time.Time `json:"created_at"`
+	ModifiedAt  time.Time `json:"modified_at"`
 }
