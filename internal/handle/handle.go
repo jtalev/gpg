@@ -29,7 +29,7 @@ func decode[T any](r *http.Request) error {
 func ServeIndex(ctx context.Context, db localdb.Db) http.Handler {
 	users := db.GetUsers()
 	return http.HandlerFunc(
-		func(w http.ResponseWriter, r * http.Request){
+		func(w http.ResponseWriter, r *http.Request) {
 			tmpl := template.Must(template.ParseFiles("../../web/pages/login.html"))
 			tmpl.Execute(w, users)
 		},
