@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - GPG</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
 </head>
 <body class="login-body">
     <div class="form-container">
-        <img src="../images/gpg-logo.jpeg" alt="gpg logo" class="logo">
+        <img src="../static/images/gpg-logo.jpeg" alt="gpg logo" class="logo">
         <form>
             <input type="email" id="email" name="email" placeholder="Email"><br>
             <input type="password" id="password" name="password" placeholder="Password"><br>
             <input type="submit" value="Submit">
+            {{ range . }}
+                {{ .Username }}
+            {{ end }}
         </form>
     </div>
 </body>

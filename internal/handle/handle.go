@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"gpg/portal/internal/localdb"
+	"html/template"
 	"net/http"
-	"path/filepath"
 )
 
 func encode[T any](w http.ResponseWriter, status int, v T) error {
@@ -27,10 +27,11 @@ func decode[T any](r *http.Request) error {
 }
 
 func ServeIndex(ctx context.Context, db localdb.Db) http.Handler {
+	users := db.GetUsers()
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r * http.Request){
-			path := filepath.Join("..", "..", "web", "pages", "login.html")
-			http.ServeFile(w, r, path)
+			tmpl := template.Must(template.ParseFiles("../../web/pages/login.html"))
+			tmpl.Execute(w, users)
 		},
 	)
 }
