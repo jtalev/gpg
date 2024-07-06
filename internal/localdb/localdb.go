@@ -34,10 +34,15 @@ func (db *Db) hydrateUserTable() {
 }
 
 func (db *Db) GetUsers() []user.User {
-	users := make([]user.User, 0)
-	for i, _ := range db.u {
-		log.Println(db.u[i])
-		users = append(users, db.u[i])
+	return db.u
+}
+
+func (db *Db) GetUserById(id int) *user.User {
+	for _, u := range db.u {
+		if u.Id == id {
+			return &u
+		}
 	}
-	return users
+	log.Println("user not found")
+	return nil
 }

@@ -9,9 +9,11 @@ import (
 
 func main() {
 	ctx := context.Background()
-	db := localdb.Db{}
-	if err := run(ctx, getenv, db); err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
+	if getenv("ENV") == "dev" {
+		db := localdb.Db{}
+		if err := run(ctx, getenv, db); err != nil {
+			fmt.Fprintf(os.Stderr, "%s\n", err)
+			os.Exit(1)
+		}
 	}
 }

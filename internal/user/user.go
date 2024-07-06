@@ -18,3 +18,5 @@ type User struct {
 	CreatedAt   time.Time `json:"created_at"`
 	ModifiedAt  time.Time `json:"modified_at"`
 }
+
+// todo: create password hasher
