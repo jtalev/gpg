@@ -1,7 +1,10 @@
 package user
 
 import (
+	"log"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
@@ -19,4 +22,16 @@ type User struct {
 	ModifiedAt  time.Time `json:"modified_at"`
 }
 
-// todo: create password hasher
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
+}
+
+func CheckPasswordHash(hash, password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	if err != nil {
+		log.Printf("error: %v", err)
+		return false
+	}
+	return true
+}

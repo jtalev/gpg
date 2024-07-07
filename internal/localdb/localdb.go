@@ -16,6 +16,10 @@ func (db *Db) InitDb() {
 }
 
 func (db *Db) hydrateUserTable() {
+	hash, err := user.HashPassword("test")
+	if err != nil {
+		log.Printf("error hashing password: %v", err)
+	}
 	user := user.User{
 		Id:           1234567,
 		EmployeeId:   1234567,
@@ -23,7 +27,7 @@ func (db *Db) hydrateUserTable() {
 		FirstName:    "Shlid",
 		LastName:     "Dy",
 		Email:        "test",
-		PasswordHash: "test",
+		PasswordHash: hash,
 
 		IsAdmin:     true,
 		IsActivated: false,

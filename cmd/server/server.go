@@ -16,7 +16,6 @@ func NewServer(
 	ctx context.Context,
 	db localdb.Db,
 ) http.Handler {
-
 	mux := http.NewServeMux()
 	addRoutes(
 		mux,
@@ -24,7 +23,6 @@ func NewServer(
 		db,
 	)
 	var handler http.Handler = mux
-	initConfig()
 	return handler
 }
 
@@ -35,6 +33,7 @@ func run(
 ) error {
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
 	defer cancel()
+	initConfig()
 	db.InitDb()
 	srv := NewServer(ctx, db)
 	httpServer := &http.Server{
