@@ -22,6 +22,27 @@ type User struct {
 	ModifiedAt  time.Time `json:"modified_at"`
 }
 
+func NewUser(
+	id, empId int,
+	username, firstname, lastname, email, passwordHash string,
+	isAdmin, isActivated bool,
+	createdAt, modifiedAt time.Time,
+ ) User {
+	u := User{}
+	u.Id = id
+	u.EmployeeId = empId
+	u.Username = username
+	u.FirstName = firstname
+	u.LastName = lastname
+	u.Email = email
+	u.PasswordHash = passwordHash
+	u.IsAdmin = isAdmin
+	u.IsActivated = isActivated
+	u.CreatedAt = createdAt
+	u.ModifiedAt = modifiedAt
+	return u
+ }
+
 func HashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	return string(bytes), err
