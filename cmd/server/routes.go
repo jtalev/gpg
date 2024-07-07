@@ -11,5 +11,10 @@ import (
 func addRoutes(mux *http.ServeMux, ctx context.Context, db localdb.Db) {
 	fileServer := http.FileServer(http.Dir("../../web/static"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
-    mux.Handle("/", handle.ServeIndex(ctx, db))
+    
+	// pages
+	mux.Handle("/", handle.ServeLogin(ctx, db))
+
+	// login
+	mux.Handle("/validate-login", handle.HandleValidateLogin(ctx, db))
 }
