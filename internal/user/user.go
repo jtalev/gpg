@@ -8,7 +8,7 @@ import (
 )
 
 type User struct {
-	Id           int    `json:"id"`
+	Id           string `json:"id"`
 	EmployeeId   int    `json:"employee_id"`
 	Username     string `json:"user_name"`
 	FirstName    string `json:"first_name"`
@@ -23,7 +23,8 @@ type User struct {
 }
 
 func NewUser(
-	id, empId int,
+	id string, 
+	empId int,
 	username, firstname, lastname, email, passwordHash string,
 	isAdmin, isActivated bool,
 	createdAt, modifiedAt time.Time,
