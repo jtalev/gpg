@@ -22,24 +22,22 @@ func ServeLogin(ctx context.Context, db localdb.Db) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			session, err := store.Get(r, "user_session")
-			if !session.IsNew {
-				if err != nil {
-					log.Printf("error getting session: %v", err)
-					http.Error(w, "error getting session", http.StatusInternalServerError)
-					return
-				} else {
-					auth := session.Values["is_authenticated"].(bool)
-					if auth {
-						http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
-						return
-					}
+			if err != nil {
+				log.Printf("error getting session: %v", err)
+				http.Error(w, "error getting session", http.StatusInternalServerError)
+				return
+			}
+			auth, ok := session.Values["is_authenticated"].(bool)
+			if !ok || !auth {
+				log.Println("serving login page")
+				tmpl := template.Must(template.ParseFiles("../../web/pages/login.html"))
+				if err := tmpl.Execute(w, nil); err != nil {
+					http.Error(w, "error executing template", http.StatusInternalServerError)
 				}
+				return
 			}
-			log.Println("serving login page")
-			tmpl := template.Must(template.ParseFiles("../../web/pages/login.html"))
-			if err := tmpl.Execute(w, nil); err != nil {
-				http.Error(w, "error executing template", http.StatusInternalServerError)
-			}
+			log.Println("user authenticated")
+			http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
 		},
 	)
 }
@@ -86,6 +84,30 @@ func HandleValidateLogin(ctx context.Context, db localdb.Db) http.Handler {
 				w.Header().Set("HX-Redirect", "/dashboard")
 			}
 			log.Println("login validation request handled")
+		},
+	)
+}
+
+func HandleLogout(db localdb.Db) http.Handler {
+	return http.HandlerFunc(
+		func(w http.ResponseWriter, r *http.Request) {
+			log.Println("logging out")
+			session, err := store.Get(r, "user_session")
+			if err != nil {
+				log.Printf("error getting session: %v", err)
+				http.Error(w, "error getting session", http.StatusInternalServerError)
+				return
+			}
+			session.Values["is_authenticated"] = false
+			err = session.Save(r, w)
+			log.Println(session.Values["is_authenticated"].(bool))
+			if err != nil {
+				log.Printf("error saving session: %v", err)
+				http.Error(w, "error saving session", http.StatusInternalServerError)
+				return
+			}
+			http.Redirect(w, r, "/", http.StatusMovedPermanently)
+			log.Println("user logged out")
 		},
 	)
 }
