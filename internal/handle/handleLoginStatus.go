@@ -73,8 +73,19 @@ func HandleValidateLogin(ctx context.Context, db *database.Db) http.Handler {
 					http.Error(w, "error getting session", http.StatusInternalServerError)
 					return
 				}
+				u, err := db.Ur.GetUserByUsername(username)
+				if err != nil {
+					log.Printf("error getting user: %v", err)
+					http.Error(w, "error getting user", http.StatusBadRequest)
+					return
+				}
 				session.Values["is_authenticated"] = true
 				session.Values["username"] = username
+				if u.IsAdmin {
+					session.Values["role"] = "admin"
+				} else {
+					session.Values["role"] = "user"
+				}
 				err = session.Save(r, w)
 				if err != nil {
 					log.Printf("HandleValidateLogin: error saving session: %v", err)
