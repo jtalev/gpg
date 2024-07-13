@@ -7,7 +7,7 @@
     <script src="https://unpkg.com/htmx.org@2.0.0" integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw" crossorigin="anonymous"></script>
 </head>
 <body>
-    <!-- create something that saves state -->
+    {{ template "nav" . }}
      <h1>Dashboard</h1>
      <p>Welcome, {{ .Username }}</p>
      {{ if .IsAdmin }}

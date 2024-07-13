@@ -118,7 +118,7 @@ func HandleLogout() http.Handler {
 				http.Error(w, "error saving session", http.StatusInternalServerError)
 				return
 			}
-			http.Redirect(w, r, "/", http.StatusFound)
+			w.Header().Set("HX-Redirect", "/")
 			log.Println("user logged out")
 		},
 	)

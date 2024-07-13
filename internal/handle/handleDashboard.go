@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"path/filepath"
 )
 
 var cookie = session.Cookie{}
@@ -27,13 +28,16 @@ func ServeDashboard(ctx context.Context, db *database.Db) http.Handler {
 				return
 			}
 			log.Println("serving dashboard")
-			
+
 			username := session.Values["username"].(string)
 			isAdmin := session.Values["is_admin"].(bool)
 			cookie.Username = username
 			cookie.IsAdmin = isAdmin
 
-			tmpl := template.Must(template.ParseFiles("../../web/pages/dashboard.html"))
+			path := filepath.Join("..", "..", "web", "pages", "dashboard.html")
+			navPath := filepath.Join("..", "..", "web", "tmpl", "nav.html")
+
+			tmpl := template.Must(template.ParseFiles(path, navPath))
 			if err := tmpl.Execute(w, cookie); err != nil {
 				log.Printf("error executing template: %v", err)
 				http.Error(w, "error executing template", http.StatusInternalServerError)

@@ -15,6 +15,7 @@ func addRoutes(mux *http.ServeMux, ctx context.Context, db *database.Db) {
 	// pages
 	mux.Handle("/", handle.ServeLogin(ctx, db))
 	mux.Handle("/dashboard", handle.ServeDashboard(ctx, db))
+	mux.Handle("/admin", handle.ServeAdmin())
 
 	// login status
 	mux.Handle("/validate-login", handle.HandleValidateLogin(ctx, db))
