@@ -11,3 +11,9 @@ type UserRepository interface {
 type Db struct {
 	Ur UserRepository
 }
+
+func NewDb(ur UserRepository) *Db {
+	return &Db{
+		Ur: ur,
+	}
+}

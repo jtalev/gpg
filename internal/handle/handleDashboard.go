@@ -2,13 +2,13 @@ package handle
 
 import (
 	"context"
-	"gpg/portal/internal/localdb"
+	"gpg/portal/internal/database"
 	"html/template"
 	"log"
 	"net/http"
 )
 
-func ServeDashboard(ctx context.Context, db localdb.Db) http.Handler {
+func ServeDashboard(ctx context.Context, db *database.Db) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			session, err := store.Get(r, "user_session")

@@ -11,11 +11,17 @@ type Db struct {
 	Ur database.UserRepository
 }
 
+func NewLocalDb() *Db {
+	db := &Db{}
+	db.InitDb()
+	return db
+}
+
 func (db *Db) InitDb() {
-	mockRepo := mockUserRepo{
+	mockRepo := &mockUserRepo{
 		users: []user.User{},
 	}
-	db.Ur = &mockRepo
+	db.Ur = mockRepo
 	db.hydrateUserTable()
 }
 

@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"gpg/portal/internal/localdb"
+	"gpg/portal/internal/database"
 	"log"
 	"net/http"
 	"os"
@@ -14,7 +14,7 @@ import (
 
 func NewServer(
 	ctx context.Context,
-	db localdb.Db,
+	db *database.Db,
 ) http.Handler {
 	mux := http.NewServeMux()
 	addRoutes(
@@ -29,12 +29,11 @@ func NewServer(
 func run(
 	ctx context.Context,
 	getenv func(string) string,
-	db localdb.Db,
+	db *database.Db,
 ) error {
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
 	defer cancel()
 	initConfig()
-	db.InitDb()
 	srv := NewServer(ctx, db)
 	httpServer := &http.Server{
 		Addr:    getenv("PORT"),

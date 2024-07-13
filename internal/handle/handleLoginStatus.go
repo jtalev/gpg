@@ -3,7 +3,7 @@ package handle
 import (
 	"context"
 	"fmt"
-	"gpg/portal/internal/localdb"
+	"gpg/portal/internal/database"
 	"gpg/portal/internal/validation"
 	"html/template"
 	"log"
@@ -18,7 +18,7 @@ var (
 	store         = sessions.NewCookieStore(key, encryptionKey)
 )
 
-func ServeLogin(ctx context.Context, db localdb.Db) http.Handler {
+func ServeLogin(ctx context.Context, db *database.Db) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			session, err := store.Get(r, "user_session")
@@ -44,7 +44,7 @@ func ServeLogin(ctx context.Context, db localdb.Db) http.Handler {
 	)
 }
 
-func HandleValidateLogin(ctx context.Context, db localdb.Db) http.Handler {
+func HandleValidateLogin(ctx context.Context, db *database.Db) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			log.Println("handling login validation request")
