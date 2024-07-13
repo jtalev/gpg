@@ -12,6 +12,7 @@ func ServeDashboard(ctx context.Context, db localdb.Db) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			session, err := store.Get(r, "user_session")
+			log.Println(session.Values["is_authenticated"])
 			if err != nil {
 				log.Printf("error getting session: %v", err)
 				http.Error(w, "error getting session", http.StatusInternalServerError)
