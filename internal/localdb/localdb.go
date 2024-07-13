@@ -25,7 +25,7 @@ func (db *Db) hydrateUserTable() {
 		log.Printf("error hashing password: %v", err)
 	}
 	user := user.NewUser(
-		"id",
+		"1234567",
 		1234567,
 		"shliddy",
 		"Shlid",
