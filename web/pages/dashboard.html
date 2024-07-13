@@ -9,5 +9,9 @@
 <body>
     <!-- create something that saves state -->
      <h1>Dashboard</h1>
+     <p>Welcome, {{ .Username }}</p>
+     {{ if .IsAdmin }}
+        <p>you have admin rights</p>
+     {{ end }}    
 </body>
 </html>

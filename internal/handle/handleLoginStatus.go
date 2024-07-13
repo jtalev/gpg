@@ -82,9 +82,9 @@ func HandleValidateLogin(ctx context.Context, db *database.Db) http.Handler {
 				session.Values["is_authenticated"] = true
 				session.Values["username"] = username
 				if u.IsAdmin {
-					session.Values["role"] = "admin"
+					session.Values["is_admin"] = true
 				} else {
-					session.Values["role"] = "user"
+					session.Values["is_admin"] = false
 				}
 				err = session.Save(r, w)
 				if err != nil {
