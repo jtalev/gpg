@@ -8,7 +8,7 @@ import (
 )
 
 type Db struct {
-	Ur database.UserRepository
+	UserRepo database.UserRepository
 }
 
 func NewLocalDb() *Db {
@@ -21,7 +21,7 @@ func (db *Db) InitDb() {
 	mockRepo := &mockUserRepo{
 		users: []user.User{},
 	}
-	db.Ur = mockRepo
+	db.UserRepo = mockRepo
 	db.hydrateUserTable()
 }
 
@@ -43,6 +43,6 @@ func (db *Db) hydrateUserTable() {
 		time.Date(2024, time.July, 3, 6, 6, 6, 6, time.Local),
 		time.Date(2024, time.July, 3, 6, 6, 6, 6, time.Local),
 	)
-	mockRepo, _ := db.Ur.(*mockUserRepo)
+	mockRepo, _ := db.UserRepo.(*mockUserRepo)
 	mockRepo.users = append(mockRepo.users, user)
 }

@@ -9,11 +9,11 @@ type UserRepository interface {
 }
 
 type Db struct {
-	Ur UserRepository
+	UserRepo UserRepository
 }
 
-func NewDb(ur UserRepository) *Db {
+func NewDb(userRepo UserRepository) *Db {
 	return &Db{
-		Ur: ur,
+		UserRepo: userRepo,
 	}
 }

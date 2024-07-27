@@ -56,7 +56,7 @@ func HandleValidateLogin(ctx context.Context, db *database.Db) http.Handler {
 			username := r.FormValue("username")
 			password := r.FormValue("password")
 
-			result := validation.ValidateLogin(db.Ur, username, password)
+			result := validation.ValidateLogin(db.UserRepo, username, password)
 			log.Println(result)
 			var html string
 			if !result.IsValid {
@@ -73,7 +73,7 @@ func HandleValidateLogin(ctx context.Context, db *database.Db) http.Handler {
 					http.Error(w, "error getting session", http.StatusInternalServerError)
 					return
 				}
-				u, err := db.Ur.GetUserByUsername(username)
+				u, err := db.UserRepo.GetUserByUsername(username)
 				if err != nil {
 					log.Printf("error getting user: %v", err)
 					http.Error(w, "error getting user", http.StatusBadRequest)
